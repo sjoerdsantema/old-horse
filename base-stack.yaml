@@ -5,7 +5,7 @@ Parameters:
     Type: String
     Description: Autoscaling group from app stack
 Resources:
-  DeployRole: #create codedeploy role
+  AssumeRole: #create codedeploy role
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -14,26 +14,46 @@ Resources:
           - Effect: Allow
             Principal:
               Service:
-               - autoscaling:*
-               - ec2:DescribeInstances
-               - ec2:DescribeInstanceStatus
-               - ec2:TerminateInstances
-               - tag:GetTags
-               - tag:GetResources
-               - sns:Publish
-               - cloudwatch:DescribeAlarms
-               - cloudwatch:PutMetricAlarm
-               - elasticloadbalancing:DescribeLoadBalancers
-               - elasticloadbalancing:DescribeInstanceHealth
-               - elasticloadbalancing:RegisterInstancesWithLoadBalancer
-               - elasticloadbalancing:DeregisterInstancesFromLoadBalancer
-               - elasticloadbalancing:DescribeTargetGroups
-               - elasticloadbalancing:DescribeTargetHealth
-               - elasticloadbalancing:RegisterTargets
-               - elasticloadbalancing:DeregisterTargets
+               - codedeploy.amazonaws.com
             Action:
               - sts:AssumeRole
       Path: "/"
+  EC2Policy: #create ec2 policy
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: EC2Policy
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action:
+              - codecommit:BatchGetRepositories
+              - codecommit:Get*
+              - codecommit:GitPull
+              - codecommit:List*
+              - autoscaling:*
+              - codedeploy:*
+              - ec2:*
+              - cloudwatch:*
+              - elasticloadbalancing:*
+              - iam:AddRoleToInstanceProfile
+              - iam:CreateInstanceProfile
+              - iam:CreateRole
+              - iam:DeleteInstanceProfile
+              - iam:DeleteRole
+              - iam:DeleteRolePolicy
+              - iam:GetInstanceProfile
+              - iam:GetRole
+              - iam:GetRolePolicy
+              - iam:ListInstanceProfilesForRole
+              - iam:ListRolePolicies
+              - iam:ListRoles
+              - iam:PassRole
+              - iam:PutRolePolicy
+              - iam:RemoveRoleFromInstanceProfile
+              - s3:*
+            Resource: "*"
+      Roles:
+        - !Ref AssumeRole
   CodeDeploy:
     Type: AWS::CodeDeploy::Application
     Properties:
