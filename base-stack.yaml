@@ -5,7 +5,7 @@ Parameters:
     Type: String
     Description: Autoscaling group from app stack
 Resources:
-  AssumeRole: #create codedeploy role
+  AssumeRole: #assume role
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -18,7 +18,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Path: "/"
-  EC2Policy: #create ec2 policy
+  EC2Policy: #create policy
     Type: AWS::IAM::Policy
     Properties:
       PolicyName: EC2Policy
@@ -58,17 +58,17 @@ Resources:
     Type: AWS::CodeDeploy::Application
     Properties:
       ComputePlatform: Server
-#  DeploymentGroup:
-#    Type: AWS::CodeDeploy::DeploymentGroup
-#    Properties:
-#      ApplicationName: !Ref CodeDeploy
-#      AutoScalingGroups:
-#        - !Ref AsgGroup
-#      DeploymentConfigName: CodeDeployDefault.OneAtATime
-#      DeploymentStyle:
-#        DeploymentOption: WITHOUT_TRAFFIC_CONTROL
-#        DeploymentType: IN_PLACE
-#      ServiceRoleArn: !GetAtt DeployRole.Arn
+  DeploymentGroup:
+    Type: AWS::CodeDeploy::DeploymentGroup
+    Properties:
+      ApplicationName: !Ref CodeDeploy
+      AutoScalingGroups:
+        - !Ref AsgGroup
+      DeploymentConfigName: CodeDeployDefault.OneAtATime
+      DeploymentStyle:
+        DeploymentOption: WITHOUT_TRAFFIC_CONTROL
+        DeploymentType: IN_PLACE
+      ServiceRoleArn: !GetAtt AssumeRole.Arn
   SpendingAlarm: #prevent things breaking the bank
     Type: AWS::CloudWatch::Alarm
     Properties:
