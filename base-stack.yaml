@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Non-critical parts like codedeploy, alerts, etc.
+Description: Non-critical parts like codedeploy, alerts, and more 
 Parameters:
   AsgGroup:
     Type: String
@@ -14,29 +14,7 @@ Resources:
           - Effect: Allow
             Principal:
               Service:
-               - autoscaling:CompleteLifecycleAction
-               - autoscaling:DeleteLifecycleHook
-               - autoscaling:DescribeAutoScalingGroups
-               - autoscaling:DescribeLifecycleHooks
-               - autoscaling:PutLifecycleHook
-               - autoscaling:RecordLifecycleActionHeartbeat
-               - autoscaling:CreateAutoScalingGroup
-               - autoscaling:UpdateAutoScalingGroup
-               - autoscaling:EnableMetricsCollection
-               - autoscaling:DescribeAutoScalingGroups
-               - autoscaling:DescribePolicies
-               - autoscaling:DescribeScheduledActions
-               - autoscaling:DescribeNotificationConfigurations
-               - autoscaling:DescribeLifecycleHooks
-               - autoscaling:SuspendProcesses
-               - autoscaling:ResumeProcesses
-               - autoscaling:AttachLoadBalancers
-               - autoscaling:PutScalingPolicy
-               - autoscaling:PutScheduledUpdateGroupAction
-               - autoscaling:PutNotificationConfiguration
-               - autoscaling:PutLifecycleHook
-               - autoscaling:DescribeScalingActivities
-               - autoscaling:DeleteAutoScalingGroup
+               - autoscaling:*
                - ec2:DescribeInstances
                - ec2:DescribeInstanceStatus
                - ec2:TerminateInstances
