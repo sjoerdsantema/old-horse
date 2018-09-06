@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Skeleton network template for Sentia Academy
+Description: Skeleton network template 
 Resources:
   VPC: #first create a standard VPC with attached igw
     Type: AWS::EC2::VPC

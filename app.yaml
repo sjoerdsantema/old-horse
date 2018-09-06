@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: EC2/application template for Sentia Academy
+Description: EC2/application template 
 Parameters:
   Repository:
     Description: Remote repository with application files
