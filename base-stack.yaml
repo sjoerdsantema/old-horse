@@ -14,6 +14,46 @@ Resources:
           - Effect: Allow
             Principal:
               Service:
+               - autoscaling:CompleteLifecycleAction
+               - autoscaling:DeleteLifecycleHook
+               - autoscaling:DescribeAutoScalingGroups
+               - autoscaling:DescribeLifecycleHooks
+               - autoscaling:PutLifecycleHook
+               - autoscaling:RecordLifecycleActionHeartbeat
+               - autoscaling:CreateAutoScalingGroup
+               - autoscaling:UpdateAutoScalingGroup
+               - autoscaling:EnableMetricsCollection
+               - autoscaling:DescribeAutoScalingGroups
+               - autoscaling:DescribePolicies
+               - autoscaling:DescribeScheduledActions
+               - autoscaling:DescribeNotificationConfigurations
+               - autoscaling:DescribeLifecycleHooks
+               - autoscaling:SuspendProcesses
+               - autoscaling:ResumeProcesses
+               - autoscaling:AttachLoadBalancers
+               - autoscaling:PutScalingPolicy
+               - autoscaling:PutScheduledUpdateGroupAction
+               - autoscaling:PutNotificationConfiguration
+               - autoscaling:PutLifecycleHook
+               - autoscaling:DescribeScalingActivities
+               - autoscaling:DeleteAutoScalingGroup
+               - ec2:DescribeInstances
+               - ec2:DescribeInstanceStatus
+               - ec2:TerminateInstances
+               - tag:GetTags
+               - tag:GetResources
+               - sns:Publish
+               - cloudwatch:DescribeAlarms
+               - cloudwatch:PutMetricAlarm
+               - elasticloadbalancing:DescribeLoadBalancers
+               - elasticloadbalancing:DescribeInstanceHealth
+               - elasticloadbalancing:RegisterInstancesWithLoadBalancer
+               - elasticloadbalancing:DeregisterInstancesFromLoadBalancer
+               - elasticloadbalancing:DescribeTargetGroups
+               - elasticloadbalancing:DescribeTargetHealth
+               - elasticloadbalancing:RegisterTargets
+               - elasticloadbalancing:DeregisterTargets
+               - codedeploy.amazonaws.com
                - codedeploy.us-east-2.amazonaws.com
                - codedeploy.us-east-1.amazonaws.com
                - codedeploy.us-west-1.amazonaws.com
@@ -43,8 +83,10 @@ Resources:
       AutoScalingGroups:
         - !Ref AsgGroup
       DeploymentConfigName: CodeDeployDefault.OneAtATime
-      DeploymentStyle: AutoScalingGroups
-      ServiceRoleArn: !Ref DeployRole
+      DeploymentStyle:
+        DeploymentOption: WITHOUT_TRAFFIC_CONTROL
+        DeploymentType: IN_PLACE
+      ServiceRoleArn: !GetAtt DeployRole.Arn
   SpendingAlarm: #prevent things breaking the bank
     Type: AWS::CloudWatch::Alarm
     Properties:
