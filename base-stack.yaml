@@ -1,4 +1,4 @@
-clearAWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: '2010-09-09'
 Description: Non-critical parts like codedeploy, alerts, etc.
 Parameters:
   AsgGroup:
