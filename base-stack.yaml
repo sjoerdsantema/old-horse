@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Non-critical parts like codedeploy, alerts, and more 
+Description: Non-critical parts like codedeploy, alerts, and more
 Parameters:
   AsgGroup:
     Type: String
@@ -38,17 +38,17 @@ Resources:
     Type: AWS::CodeDeploy::Application
     Properties:
       ComputePlatform: Server
-  DeploymentGroup:
-    Type: AWS::CodeDeploy::DeploymentGroup
-    Properties:
-      ApplicationName: !Ref CodeDeploy
-      AutoScalingGroups:
-        - !Ref AsgGroup
-      DeploymentConfigName: CodeDeployDefault.OneAtATime
-      DeploymentStyle:
-        DeploymentOption: WITHOUT_TRAFFIC_CONTROL
-        DeploymentType: IN_PLACE
-      ServiceRoleArn: !GetAtt DeployRole.Arn
+#  DeploymentGroup:
+#    Type: AWS::CodeDeploy::DeploymentGroup
+#    Properties:
+#      ApplicationName: !Ref CodeDeploy
+#      AutoScalingGroups:
+#        - !Ref AsgGroup
+#      DeploymentConfigName: CodeDeployDefault.OneAtATime
+#      DeploymentStyle:
+#        DeploymentOption: WITHOUT_TRAFFIC_CONTROL
+#        DeploymentType: IN_PLACE
+#      ServiceRoleArn: !GetAtt DeployRole.Arn
   SpendingAlarm: #prevent things breaking the bank
     Type: AWS::CloudWatch::Alarm
     Properties:
