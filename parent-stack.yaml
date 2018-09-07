@@ -22,24 +22,19 @@ Resources:
  SkeletonStack:
   Type: AWS::CloudFormation::Stack
   Properties:
-    TemplateURL: https://s3-eu-west-1.amazonaws.com/one-sentia-course/CFNTemplates/old-horse/skeleton.yaml
+    TemplateURL: https://s3.us-east-2.amazonaws.com/old-horse/skeleton.yaml
     TimeoutInMinutes: 60
  BaseStack:
   Type: AWS::CloudFormation::Stack
   Properties:
-    TemplateURL: https://s3-eu-west-1.amazonaws.com/one-sentia-course/CFNTemplates/old-horse/base-stack.yaml
+    TemplateURL: https://s3.us-east-2.amazonaws.com/old-horse/base-stack.yaml
     Parameters:
       AsgGroup: !GetAtt 'AppStack.Outputs.AsgGroup'
-    TimeoutInMinutes: 60
- CodePipelineStack: #codepipeline which updates this stack if a new commit is pushed to github repo 
-  Type: AWS::CloudFormation::Stack
-  Properties:
-    TemplateURL: https://s3-eu-west-1.amazonaws.com/one-sentia-course/CFNTemplates/old-horse/codepipeline-stack.yaml
     TimeoutInMinutes: 60
  AppStack:
   Type: AWS::CloudFormation::Stack
   Properties:
-    TemplateURL: https://s3-eu-west-1.amazonaws.com/one-sentia-course/CFNTemplates/old-horse/app.yaml
+    TemplateURL: https://s3.us-east-2.amazonaws.com/old-horse/app.yaml
     Parameters:
       Repository: !Ref Repository
       BastionSubnet:
