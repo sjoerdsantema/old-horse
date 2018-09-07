@@ -20,6 +20,7 @@ Resources:
       Path: "/"
   EC2Policy: #create policy
     Type: AWS::IAM::Policy
+    DependsOn: AssumeRole
     Properties:
       PolicyName: EC2Policy
       PolicyDocument:
@@ -60,7 +61,7 @@ Resources:
       ComputePlatform: Server
   DeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
-    DependsOn: !Ref EC2Policy
+    DependsOn: EC2Policy
     Properties:
       ApplicationName: !Ref CodeDeploy
       AutoScalingGroups:
