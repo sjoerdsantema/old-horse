@@ -60,6 +60,7 @@ Resources:
       ComputePlatform: Server
   DeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
+    DependsOn: !Ref EC2Policy
     Properties:
       ApplicationName: !Ref CodeDeploy
       AutoScalingGroups:
