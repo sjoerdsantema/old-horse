@@ -128,20 +128,19 @@ Resources:
           Name: Source
           Actions:
             -
-              Name: CfnStacks
-              ActionTypeId:
-                Category: Source
-                Owner: ThirdParty
-                Version: 1
-                Provider: GitHub
-              Configuration:
-                Owner: sjoerdsantema
-                Repo: old-horse
-                Branch: master
-                OAuthToken: "ceef5942d412642aec5c6e77bb7e1a81e5e7c553"
-              OutputArtifacts:
-                - Name: Stacks
-              RunOrder: 1
+             Name: SourceAction
+             ActionTypeId:
+               Category: Source
+               Owner: AWS
+               Version: 1
+               Provider: S3
+             OutputArtifacts:
+               -
+                 Name: Stacks 
+             Configuration:
+               S3Bucket: one-sentia-course/CFNTemplates/old-horse
+               S3ObjectKey: parent-stack.yaml
+             RunOrder: 1
         -
           Name: Production
           Actions:
