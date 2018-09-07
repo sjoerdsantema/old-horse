@@ -138,7 +138,7 @@ Resources:
                 Owner: sjoerdsantema
                 Repo: old-horse
                 Branch: master
-                OAuthToken: b358048ed2d2ceb9b9c09db701866c4daa8f9647
+                OAuthToken: "ceef5942d412642aec5c6e77bb7e1a81e5e7c553"
               OutputArtifacts:
                 - Name: Stacks
               RunOrder: 1
@@ -161,7 +161,7 @@ Resources:
                 ActionMode: CREATE_UPDATE
                 RoleArn:
                   !GetAtt CPServiceRole.Arn
-                Capabilities: CAPABILITY__IAM
+                Capabilities: CAPABILITY_IAM
                 StackName:
                   !Sub ${AWS::StackName}
                 TemplatePath: Stacks::parent-stack.yml
