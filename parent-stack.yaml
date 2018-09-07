@@ -31,7 +31,7 @@ Resources:
     Parameters:
       AsgGroup: !GetAtt 'AppStack.Outputs.AsgGroup'
     TimeoutInMinutes: 60
- CodePipelineStack:
+ CodePipelineStack: #codepipeline which updates this stack if a new commit is pushed to github repo 
   Type: AWS::CloudFormation::Stack
   Properties:
     TemplateURL: https://s3-eu-west-1.amazonaws.com/one-sentia-course/CFNTemplates/old-horse/codepipeline-stack.yaml

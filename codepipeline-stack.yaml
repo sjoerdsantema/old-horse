@@ -164,5 +164,5 @@ Resources:
                 Capabilities: CAPABILITY_IAM
                 StackName:
                   !Sub ${AWS::StackName}
-                TemplatePath: Stacks::parent-stack.yml
+                TemplatePath: Stacks::parent-stack.yaml
               RunOrder: 1
