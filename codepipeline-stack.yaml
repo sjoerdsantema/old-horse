@@ -1,9 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: CodePipeline for this set of templates
-Parameters:
-  AsgGroup:
-    Type: String
-    Description: Autoscaling group from app stack
 Resources:
   CPServiceRole: #CodePipeline service role
     Type: AWS::IAM::Role
@@ -114,3 +110,58 @@ Resources:
             Resource: "*"
       Roles:
         - !Ref CPServiceRole
+  ArtifactBucket: #bucket for artifacts
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    DependsOn:
+      - ArtifactBucket
+      - CPPolicy
+    Properties:
+      RoleArn: !GetAtt CPServiceRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: !Ref ArtifactBucket
+      Stages:
+        -
+          Name: Source
+          Actions:
+            -
+              Name: CfnStacks
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: sjoerdsantema
+                Repo: old-horse
+                Branch: master
+                OAuthToken: b358048ed2d2ceb9b9c09db701866c4daa8f9647
+              OutputArtifacts:
+                - Name: Stacks
+              RunOrder: 1
+        -
+          Name: Production
+          Actions:
+            -
+              Name: CreateProduction
+              InputArtifacts:
+                - Name: Stacks
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Version: 1
+                Provider: CloudFormation
+              OutputArtifacts:
+                -
+                  Name: CFNTemplateArtifact
+              Configuration:
+                ActionMode: CREATE_UPDATE
+                RoleArn:
+                  !GetAtt CPServiceRole.Arn
+                Capabilities: CAPABILITY__IAM
+                StackName:
+                  !Sub ${AWS::StackName}
+              RunOrder: 1

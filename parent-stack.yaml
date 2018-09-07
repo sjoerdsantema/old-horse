@@ -31,6 +31,11 @@ Resources:
     Parameters:
       AsgGroup: !GetAtt 'AppStack.Outputs.AsgGroup'
     TimeoutInMinutes: 60
+ CodePipelineStack:
+  Type: AWS::CloudFormation::Stack
+  Properties:
+    TemplateURL: https://s3-eu-west-1.amazonaws.com/one-sentia-course/CFNTemplates/old-horse/codepipeline-stack.yaml
+    TimeoutInMinutes: 60
  AppStack:
   Type: AWS::CloudFormation::Stack
   Properties:
