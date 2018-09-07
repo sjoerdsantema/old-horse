@@ -5,7 +5,7 @@ Parameters:
     Type: String
     Description: Autoscaling group from app stack
 Resources:
-  AssumeRole: #assume role
+  CDServiceRole: #CodeDeploy service role
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -14,15 +14,15 @@ Resources:
           - Effect: Allow
             Principal:
               Service:
-               - codedeploy.amazonaws.com
+                 - codedeploy.amazonaws.com
             Action:
-              - sts:AssumeRole
+                 - sts:AssumeRole
       Path: "/"
-  EC2Policy: #create policy
+  CDPolicy: #create CodeDeploy policy
     Type: AWS::IAM::Policy
-    DependsOn: AssumeRole
+    DependsOn: CDServiceRole
     Properties:
-      PolicyName: EC2Policy
+      PolicyName: CDPolicy
       PolicyDocument:
         Statement:
           - Effect: Allow
@@ -54,23 +54,23 @@ Resources:
               - s3:*
             Resource: "*"
       Roles:
-        - !Ref AssumeRole
+        - !Ref CDServiceRole
   CodeDeploy:
     Type: AWS::CodeDeploy::Application
     Properties:
       ComputePlatform: Server
   DeploymentGroup:
-    Type: AWS::CodeDeploy::DeploymentGroup
-    DependsOn: EC2Policy
-    Properties:
-      ApplicationName: !Ref CodeDeploy
-      AutoScalingGroups:
-        - !Ref AsgGroup
-      DeploymentConfigName: CodeDeployDefault.OneAtATime
-      DeploymentStyle:
-        DeploymentOption: WITHOUT_TRAFFIC_CONTROL
-        DeploymentType: IN_PLACE
-      ServiceRoleArn: !GetAtt AssumeRole.Arn
+   Type: AWS::CodeDeploy::DeploymentGroup
+   DependsOn: CDPolicy
+   Properties:
+    ApplicationName: !Ref CodeDeploy
+    AutoScalingGroups:
+      - !Ref AsgGroup
+    DeploymentConfigName: CodeDeployDefault.OneAtATime
+    DeploymentStyle:
+      DeploymentOption: WITHOUT_TRAFFIC_CONTROL
+      DeploymentType: IN_PLACE
+    ServiceRoleArn: !GetAtt CDServiceRole.Arn
   SpendingAlarm: #prevent things breaking the bank
     Type: AWS::CloudWatch::Alarm
     Properties:
