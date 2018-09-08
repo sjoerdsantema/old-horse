@@ -209,7 +209,7 @@ Resources:
                 Owner: sjoerdsantema
                 Repo: loremipsum
                 Branch: master
-                OAuthToken: "84cf6a05d2c08f2a2bdcea08da4cf078d5bba338"
+                OAuthToken: "340dd708974ad6e6e122a956033387df5902480e"
               RunOrder: 1
         - Name: Deploy
           Actions:
@@ -249,3 +249,4 @@ Resources:
       Subscription:
         - Endpoint: "sjoerdsantema@gmail.com"
           Protocol: 'email'
+

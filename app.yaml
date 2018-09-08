@@ -237,7 +237,7 @@ Resources:
       TargetTrackingConfiguration:
         PredefinedMetricSpecification:
           PredefinedMetricType: ASGAverageCPUUtilization
-        TargetValue: 50.0
+        TargetValue: 50.0 #scale up at 50 percent avg cpu usage
   AutoScalingGroup: #spawn auto-scaling group
     Type: AWS::AutoScaling::AutoScalingGroup
     CreationPolicy:
